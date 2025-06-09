@@ -82,8 +82,8 @@ const Dashboard: React.FC = () => {
         <Header onExport={handleExport} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Carregando leads...</p>
+            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-apple-footnote text-muted-foreground">Carregando leads...</p>
           </div>
         </div>
       </div>
@@ -91,13 +91,13 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       <Header onExport={handleExport} />
-      <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-2">Dashboard de Leads</h2>
-            <p className="text-muted-foreground">Gerencie e acompanhe seus leads de consórcio</p>
+      <main className="px-6 py-8 max-w-7xl mx-auto">
+        <div className="space-y-8">
+          <div className="space-y-2">
+            <h1 className="text-apple-title1 font-system text-foreground">Dashboard de Leads</h1>
+            <p className="text-apple-body text-muted-foreground">Gerencie e acompanhe seus leads de consórcio</p>
           </div>
           <StatsCards leads={leads} />
           <LeadTable leads={leads} />
