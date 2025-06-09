@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Lead } from '../types/Lead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +10,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { Phone, Mail, Calendar, MessageCircle } from 'lucide-react';
+import { Phone, Mail, Calendar, MessageCircle, Users } from 'lucide-react';
 
 interface LeadTableProps {
   leads: Lead[];
