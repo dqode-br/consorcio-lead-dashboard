@@ -3,23 +3,43 @@ import React from 'react';
 import { Lead } from '../types/Lead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from '@/components/ui/table';
+import { Phone, Mail, Calendar, MessageCircle } from 'lucide-react';
 
 interface LeadTableProps {
   leads: Lead[];
 }
 
 const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
-  const getTemperatureClass = (temperatura: string) => {
+  const getTemperatureBadge = (temperatura: string) => {
     switch (temperatura.toLowerCase()) {
       case 'quente':
-        return 'temperature-hot';
+        return <Badge className="bg-red-100 text-red-800 border-red-200 hover:bg-red-100">Quente</Badge>;
       case 'morno':
-        return 'temperature-warm';
+        return <Badge className="bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-100">Morno</Badge>;
       case 'frio':
-        return 'temperature-cold';
+        return <Badge className="bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-100">Frio</Badge>;
       default:
-        return 'bg-gray-100 text-gray-800 border border-gray-200';
+        return <Badge variant="secondary">{temperatura}</Badge>;
     }
+  };
+
+  const getTipoBadge = (tipo: string) => {
+    return (
+      <Badge 
+        variant="outline" 
+        className={tipo === 'Imóvel' ? 'border-green-200 text-green-800' : 'border-blue-200 text-blue-800'}
+      >
+        {tipo}
+      </Badge>
+    );
   };
 
   const formatDate = (dateString: string) => {
@@ -33,71 +53,87 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
   };
 
   return (
-    <Card className="animate-fade-in">
-      <CardHeader>
-        <CardTitle className="text-xl text-dashboard-primary">
-          Lista de Leads ({leads.length})
+    <Card className="shadow-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-xl font-semibold flex items-center gap-2">
+          <div className="h-5 w-5 rounded bg-primary/20 flex items-center justify-center">
+            <div className="h-2 w-2 rounded bg-primary"></div>
+          </div>
+          Lista de Leads
+          <Badge variant="secondary" className="ml-2">
+            {leads.length} {leads.length === 1 ? 'lead' : 'leads'}
+          </Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left p-3 font-semibold text-foreground">Nome/Email</th>
-                <th className="text-left p-3 font-semibold text-foreground">Telefone</th>
-                <th className="text-left p-3 font-semibold text-foreground">Valor Desejado</th>
-                <th className="text-left p-3 font-semibold text-foreground">Tipo</th>
-                <th className="text-left p-3 font-semibold text-foreground">Temperatura</th>
-                <th className="text-left p-3 font-semibold text-foreground">Data</th>
-                <th className="text-left p-3 font-semibold text-foreground">Mensagem</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leads.map((lead, index) => (
-                <tr 
-                  key={lead.id} 
-                  className="border-b border-border hover:bg-muted/50 transition-colors"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <td className="p-3">
-                    <div className="font-medium text-foreground">{lead.nome}</div>
-                  </td>
-                  <td className="p-3">
-                    <div className="text-foreground">{lead.telefone}</div>
-                  </td>
-                  <td className="p-3">
-                    <div className="font-medium text-dashboard-primary">{lead.valor_desejado}</div>
-                  </td>
-                  <td className="p-3">
-                    <Badge variant="secondary">{lead.tipo_de_consorcio}</Badge>
-                  </td>
-                  <td className="p-3">
-                    <Badge className={getTemperatureClass(lead.temperatura)}>
-                      {lead.temperatura}
-                    </Badge>
-                  </td>
-                  <td className="p-3">
-                    <div className="text-sm text-muted-foreground">
-                      {formatDate(lead.data_inicio)}
+      <CardContent className="p-0">
+        {leads.length > 0 ? (
+          <Table>
+            <TableHeader>
+              <TableRow className="hover:bg-transparent">
+                <TableHead className="font-semibold">Contato</TableHead>
+                <TableHead className="font-semibold">Telefone</TableHead>
+                <TableHead className="font-semibold">Valor</TableHead>
+                <TableHead className="font-semibold">Tipo</TableHead>
+                <TableHead className="font-semibold">Temperatura</TableHead>
+                <TableHead className="font-semibold">Data</TableHead>
+                <TableHead className="font-semibold">Mensagem</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {leads.map((lead) => (
+                <TableRow key={lead.id} className="hover:bg-muted/50">
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Mail size={14} className="text-primary" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-foreground">{lead.nome}</div>
+                      </div>
                     </div>
-                  </td>
-                  <td className="p-3">
-                    <div className="text-sm text-muted-foreground max-w-xs truncate">
-                      {lead.mensagem}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Phone size={14} className="text-muted-foreground" />
+                      <span className="font-mono text-sm">{lead.telefone}</span>
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-semibold text-primary">{lead.valor_desejado}</div>
+                  </TableCell>
+                  <TableCell>
+                    {getTipoBadge(lead.tipo_de_consorcio)}
+                  </TableCell>
+                  <TableCell>
+                    {getTemperatureBadge(lead.temperatura)}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Calendar size={14} />
+                      <span>{formatDate(lead.data_inicio)}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 max-w-xs">
+                      <MessageCircle size={14} className="text-muted-foreground flex-shrink-0" />
+                      <span className="text-sm text-muted-foreground truncate">
+                        {lead.mensagem}
+                      </span>
+                    </div>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
-          
-          {leads.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              Nenhum lead encontrado
+            </TableBody>
+          </Table>
+        ) : (
+          <div className="text-center py-12 text-muted-foreground">
+            <div className="h-12 w-12 rounded-full bg-muted/20 flex items-center justify-center mx-auto mb-4">
+              <Users className="h-6 w-6" />
             </div>
-          )}
-        </div>
+            <p className="text-lg font-medium mb-2">Nenhum lead encontrado</p>
+            <p className="text-sm">Os leads aparecerão aqui quando forem criados</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -78,14 +78,12 @@ const Dashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Header onExport={handleExport} />
-        <div className="max-w-7xl mx-auto p-6">
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <div className="w-16 h-16 border-4 border-dashboard-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Carregando leads...</p>
-            </div>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Carregando leads...</p>
           </div>
         </div>
       </div>
@@ -93,12 +91,18 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header onExport={handleExport} />
-      <div className="max-w-7xl mx-auto p-6">
-        <StatsCards leads={leads} />
-        <LeadTable leads={leads} />
-      </div>
+      <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-3xl font-bold text-foreground mb-2">Dashboard de Leads</h2>
+            <p className="text-muted-foreground">Gerencie e acompanhe seus leads de consórcio</p>
+          </div>
+          <StatsCards leads={leads} />
+          <LeadTable leads={leads} />
+        </div>
+      </main>
     </div>
   );
 };
