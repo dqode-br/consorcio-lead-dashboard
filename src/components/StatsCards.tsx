@@ -20,54 +20,47 @@ const StatsCards: React.FC<StatsCardsProps> = ({ leads }) => {
       title: 'Total de Leads',
       value: totalLeads,
       icon: Users,
-      bgColor: 'bg-apple-gray-50',
-      iconColor: 'text-apple-blue',
-      textColor: 'text-apple-gray-900'
+      color: 'text-foreground',
+      bgColor: 'bg-card'
     },
     {
       title: 'Leads Quentes',
       value: leadsPorTemperatura['Quente'] || 0,
       icon: TrendingUp,
-      bgColor: 'bg-red-50',
-      iconColor: 'text-apple-red',
-      textColor: 'text-apple-red'
+      color: 'text-red-600',
+      bgColor: 'bg-card'
     },
     {
       title: 'Leads Mornos',
       value: leadsPorTemperatura['Morno'] || 0,
       icon: Clock,
-      bgColor: 'bg-orange-50',
-      iconColor: 'text-apple-orange',
-      textColor: 'text-apple-orange'
+      color: 'text-orange-600',
+      bgColor: 'bg-card'
     },
     {
       title: 'Leads Frios',
       value: leadsPorTemperatura['Frio'] || 0,
       icon: Target,
-      bgColor: 'bg-blue-50',
-      iconColor: 'text-apple-blue',
-      textColor: 'text-apple-blue'
+      color: 'text-blue-600',
+      bgColor: 'bg-card'
     }
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {estatisticas.map((stat, index) => (
         <Card 
           key={stat.title} 
-          className={`apple-card border-border bg-card shadow-apple rounded-apple overflow-hidden ${stat.bgColor}`}
-          style={{ animationDelay: `${index * 0.1}s` }}
+          className={`${stat.bgColor} border border-border shadow-sm hover:shadow-md transition-shadow duration-200`}
         >
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-apple-subhead font-system text-muted-foreground font-medium">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
               {stat.title}
             </CardTitle>
-            <div className={`w-8 h-8 ${stat.bgColor} rounded-lg flex items-center justify-center`}>
-              <stat.icon className={`h-4 w-4 ${stat.iconColor}`} />
-            </div>
+            <stat.icon className={`h-4 w-4 ${stat.color}`} />
           </CardHeader>
-          <CardContent className="pt-0">
-            <div className={`text-apple-title2 font-system font-bold ${stat.textColor}`}>
+          <CardContent>
+            <div className={`text-2xl font-semibold ${stat.color}`}>
               {stat.value}
             </div>
           </CardContent>

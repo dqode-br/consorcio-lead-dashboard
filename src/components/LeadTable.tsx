@@ -21,13 +21,13 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
   const getTemperatureBadge = (temperatura: string) => {
     switch (temperatura.toLowerCase()) {
       case 'quente':
-        return <Badge className="bg-red-50 text-apple-red border-red-100 hover:bg-red-50 font-system text-apple-caption1">Quente</Badge>;
+        return <Badge className="bg-red-50 text-red-700 border-red-200 hover:bg-red-50">Quente</Badge>;
       case 'morno':
-        return <Badge className="bg-orange-50 text-apple-orange border-orange-100 hover:bg-orange-50 font-system text-apple-caption1">Morno</Badge>;
+        return <Badge className="bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-50">Morno</Badge>;
       case 'frio':
-        return <Badge className="bg-blue-50 text-apple-blue border-blue-100 hover:bg-blue-50 font-system text-apple-caption1">Frio</Badge>;
+        return <Badge className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-50">Frio</Badge>;
       default:
-        return <Badge variant="secondary" className="font-system text-apple-caption1">{temperatura}</Badge>;
+        return <Badge variant="secondary">{temperatura}</Badge>;
     }
   };
 
@@ -35,10 +35,10 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
     return (
       <Badge 
         variant="outline" 
-        className={`font-system text-apple-caption1 ${
+        className={`${
           tipo === 'Imóvel' 
-            ? 'border-apple-green/30 text-apple-green bg-green-50' 
-            : 'border-apple-blue/30 text-apple-blue bg-blue-50'
+            ? 'border-green-200 text-green-700 bg-green-50' 
+            : 'border-blue-200 text-blue-700 bg-blue-50'
         }`}
       >
         {tipo}
@@ -57,14 +57,14 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
   };
 
   return (
-    <Card className="shadow-apple border-border rounded-apple overflow-hidden">
-      <CardHeader className="bg-card border-b border-border">
-        <CardTitle className="text-apple-headline font-system flex items-center gap-3">
-          <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-primary"></div>
-          </div>
-          Lista de Leads
-          <Badge variant="secondary" className="ml-auto font-system text-apple-caption1">
+    <Card className="shadow-sm border border-border">
+      <CardHeader className="border-b border-border bg-card">
+        <CardTitle className="text-lg font-semibold flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <Users className="w-5 h-5 text-primary" />
+            Lista de Leads
+          </span>
+          <Badge variant="secondary" className="text-sm">
             {leads.length} {leads.length === 1 ? 'lead' : 'leads'}
           </Badge>
         </CardTitle>
@@ -74,24 +74,24 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent border-b border-border">
-                <TableHead className="font-system text-apple-subhead font-semibold text-muted-foreground h-12">Contato</TableHead>
-                <TableHead className="font-system text-apple-subhead font-semibold text-muted-foreground">Telefone</TableHead>
-                <TableHead className="font-system text-apple-subhead font-semibold text-muted-foreground">Valor</TableHead>
-                <TableHead className="font-system text-apple-subhead font-semibold text-muted-foreground">Tipo</TableHead>
-                <TableHead className="font-system text-apple-subhead font-semibold text-muted-foreground">Temperatura</TableHead>
-                <TableHead className="font-system text-apple-subhead font-semibold text-muted-foreground">Data</TableHead>
-                <TableHead className="font-system text-apple-subhead font-semibold text-muted-foreground">Mensagem</TableHead>
+                <TableHead className="font-medium text-muted-foreground h-12">Contato</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Telefone</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Valor</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Tipo</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Temperatura</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Data</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Mensagem</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {leads.map((lead) => (
-                <TableRow key={lead.id} className="hover:bg-secondary/30 transition-colors border-b border-border/50">
+                <TableRow key={lead.id} className="hover:bg-muted/50 transition-colors border-b border-border/50">
                   <TableCell className="py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <Mail size={14} className="text-primary" />
+                        <Mail size={16} className="text-primary" />
                       </div>
-                      <div className="font-system text-apple-callout font-medium text-foreground">
+                      <div className="font-medium text-foreground">
                         {lead.nome}
                       </div>
                     </div>
@@ -99,11 +99,11 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Phone size={14} className="text-muted-foreground" />
-                      <span className="font-mono text-apple-callout text-foreground">{lead.telefone}</span>
+                      <span className="font-mono text-sm text-foreground">{lead.telefone}</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="font-system text-apple-callout font-semibold text-primary">
+                    <div className="font-semibold text-primary">
                       {lead.valor_desejado}
                     </div>
                   </TableCell>
@@ -116,7 +116,7 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Calendar size={14} className="text-muted-foreground" />
-                      <span className="font-system text-apple-callout text-muted-foreground">
+                      <span className="text-sm text-muted-foreground">
                         {formatDate(lead.data_inicio)}
                       </span>
                     </div>
@@ -124,7 +124,7 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
                   <TableCell>
                     <div className="flex items-center gap-2 max-w-xs">
                       <MessageCircle size={14} className="text-muted-foreground flex-shrink-0" />
-                      <span className="font-system text-apple-callout text-muted-foreground truncate">
+                      <span className="text-sm text-muted-foreground truncate">
                         {lead.mensagem}
                       </span>
                     </div>
@@ -134,14 +134,14 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
             </TableBody>
           </Table>
         ) : (
-          <div className="text-center py-16">
-            <div className="w-12 h-12 bg-secondary/50 rounded-apple flex items-center justify-center mx-auto mb-4">
+          <div className="text-center py-12">
+            <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center mx-auto mb-4">
               <Users className="h-6 w-6 text-muted-foreground" />
             </div>
-            <p className="font-system text-apple-headline font-medium text-foreground mb-2">
+            <p className="text-lg font-medium text-foreground mb-2">
               Nenhum lead encontrado
             </p>
-            <p className="font-system text-apple-callout text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Os leads aparecerão aqui quando forem criados
             </p>
           </div>
