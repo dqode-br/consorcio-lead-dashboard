@@ -78,7 +78,7 @@ const Dashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen bg-white flex flex-col">
         <Header onExport={handleExport} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Header onExport={handleExport} />
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="space-y-8">

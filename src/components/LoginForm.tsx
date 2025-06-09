@@ -33,8 +33,8 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-dashboard-primary to-dashboard-accent p-4">
-      <Card className="w-full max-w-md shadow-2xl animate-fade-in">
+    <div className="min-h-screen flex items-center justify-center bg-white p-4">
+      <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">Dashboard Consórcio</CardTitle>
           <CardDescription>
@@ -69,7 +69,7 @@ const LoginForm: React.FC = () => {
             </div>
             <Button 
               type="submit" 
-              className="w-full btn-primary"
+              className="w-full apple-button"
               disabled={isLoading}
             >
               {isLoading ? 'Entrando...' : 'Entrar'}
