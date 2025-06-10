@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Lead } from '../types/Lead';
 import Header from '../components/Header';
@@ -91,7 +90,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Header onExport={handleExport} />
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="space-y-8">

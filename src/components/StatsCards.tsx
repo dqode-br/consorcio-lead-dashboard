@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Lead } from '../types/Lead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,21 +26,21 @@ const StatsCards: React.FC<StatsCardsProps> = ({ leads }) => {
       title: 'Leads Quentes',
       value: leadsPorTemperatura['Quente'] || 0,
       icon: TrendingUp,
-      color: 'text-red-600',
+      color: 'text-red-400',
       bgColor: 'bg-card'
     },
     {
       title: 'Leads Mornos',
       value: leadsPorTemperatura['Morno'] || 0,
       icon: Clock,
-      color: 'text-orange-600',
+      color: 'text-orange-400',
       bgColor: 'bg-card'
     },
     {
       title: 'Leads Frios',
       value: leadsPorTemperatura['Frio'] || 0,
       icon: Target,
-      color: 'text-blue-600',
+      color: 'text-blue-400',
       bgColor: 'bg-card'
     }
   ];
@@ -51,7 +50,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ leads }) => {
       {estatisticas.map((stat, index) => (
         <Card 
           key={stat.title} 
-          className={`${stat.bgColor} border border-border shadow-sm hover:shadow-md transition-shadow duration-200`}
+          className={`${stat.bgColor} border border-border shadow-sm hover:shadow-md transition-shadow duration-200 text-foreground`}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">

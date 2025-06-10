@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Lead } from '../types/Lead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,11 +20,11 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
   const getTemperatureBadge = (temperatura: string) => {
     switch (temperatura.toLowerCase()) {
       case 'quente':
-        return <Badge className="bg-red-50 text-red-700 border-red-200 hover:bg-red-50">Quente</Badge>;
+        return <Badge className="bg-secondary text-red-400 border-red-600 hover:bg-secondary/80">Quente</Badge>;
       case 'morno':
-        return <Badge className="bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-50">Morno</Badge>;
+        return <Badge className="bg-secondary text-orange-400 border-orange-600 hover:bg-secondary/80">Morno</Badge>;
       case 'frio':
-        return <Badge className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-50">Frio</Badge>;
+        return <Badge className="bg-secondary text-blue-400 border-blue-600 hover:bg-secondary/80">Frio</Badge>;
       default:
         return <Badge variant="secondary">{temperatura}</Badge>;
     }
@@ -35,11 +34,11 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
     return (
       <Badge 
         variant="outline" 
-        className={`${
+        className={`bg-secondary ${ 
           tipo === 'Imóvel' 
-            ? 'border-green-200 text-green-700 bg-green-50' 
-            : 'border-blue-200 text-blue-700 bg-blue-50'
-        }`}
+            ? 'text-green-400 border-green-600' 
+            : 'text-blue-440 border-blue-600'
+        } hover:bg-secondary/80`}
       >
         {tipo}
       </Badge>
@@ -57,8 +56,8 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
   };
 
   return (
-    <Card className="shadow-sm border border-border">
-      <CardHeader className="border-b border-border bg-card">
+    <Card className="shadow-sm border border-border rounded-lg overflow-hidden">
+      <CardHeader className="bg-card rounded-t-lg">
         <CardTitle className="text-lg font-semibold flex items-center justify-between">
           <span className="flex items-center gap-2">
             <Users className="w-5 h-5 text-primary" />
@@ -69,6 +68,7 @@ const LeadTable: React.FC<LeadTableProps> = ({ leads }) => {
           </Badge>
         </CardTitle>
       </CardHeader>
+      <div className="border-b border-border"></div>
       <CardContent className="p-0">
         {leads.length > 0 ? (
           <Table>

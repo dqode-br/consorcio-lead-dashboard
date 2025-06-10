@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +7,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import { ThemeProvider } from "next-themes";
 
 const queryClient = new QueryClient();
 
@@ -42,11 +42,13 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <AuthProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </AuthProvider>
+      <ThemeProvider defaultTheme="dark" attribute="class">
+        <AuthProvider>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

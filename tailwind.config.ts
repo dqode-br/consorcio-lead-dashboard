@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -87,7 +86,7 @@ export default {
 				'4xl': ['36px', { lineHeight: '40px' }]
 			},
 			borderRadius: {
-				lg: '12px',
+				lg: '18px',
 				md: '8px',
 				sm: '6px'
 			},
