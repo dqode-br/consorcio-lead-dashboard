@@ -1,10 +1,10 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient'; // Importar o cliente Supabase
 
 interface User {
   id: string;
   email: string;
-  name: string;
+  name?: string; // Opcional, pode vir do user_metadata do Supabase
 }
 
 interface AuthContextType {
@@ -29,41 +29,75 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is already logged in
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
+    const getSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (session) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email || '',
+          name: session.user.user_metadata?.full_name || session.user.email || 'Usuário', // Exemplo de como pegar nome ou usar email
+        });
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    };
+
+    getSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email || '',
+          name: session.user.user_metadata?.full_name || session.user.email || 'Usuário',
+        });
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    return () => {
+      authListener?.unsubscribe();
+    };
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
-    
-    // Simulate API call - replace with real authentication
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (email === 'admin@consorcio.com' && password === 'admin123') {
-          const userData = {
-            id: '1',
-            email: email,
-            name: 'Administrador'
-          };
-          setUser(userData);
-          localStorage.setItem('user', JSON.stringify(userData));
-          setIsLoading(false);
-          resolve(true);
-        } else {
-          setIsLoading(false);
-          resolve(false);
-        }
-      }, 1000);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
+
+    if (error) {
+      console.error('Erro de login do Supabase:', error.message);
+      setIsLoading(false);
+      return false;
+    } else if (data.user) {
+      setUser({
+        id: data.user.id,
+        email: data.user.email || '',
+        name: data.user.user_metadata?.full_name || data.user.email || 'Usuário',
+      });
+      setIsLoading(false);
+      return true;
+    } else {
+      // Caso data.user seja null, mas não haja erro (ex: credenciais inválidas mas sem erro explícito)
+      setIsLoading(false);
+      return false;
+    }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const logout = async () => {
+    setIsLoading(true);
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Erro de logout do Supabase:', error.message);
+    } else {
+      setUser(null);
+    }
+    setIsLoading(false);
   };
 
   return (

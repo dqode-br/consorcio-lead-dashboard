@@ -1,46 +1,46 @@
 import React from 'react';
-import { Lead } from '../types/Lead';
+import { Appointment } from '../types/Appointment';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, TrendingUp, Clock, Target } from 'lucide-react';
+import { Users, TrendingUp, Clock, XCircle, CheckCircle } from 'lucide-react';
 
 interface StatsCardsProps {
-  leads: Lead[];
+  appointments: Appointment[];
 }
 
-const StatsCards: React.FC<StatsCardsProps> = ({ leads }) => {
-  const totalLeads = leads.length;
-  const leadsPorTemperatura = leads.reduce((acc, lead) => {
-    acc[lead.temperatura] = (acc[lead.temperatura] || 0) + 1;
+const StatsCards: React.FC<StatsCardsProps> = ({ appointments }) => {
+  const totalAppointments = appointments.length;
+  const appointmentsPorStatus = appointments.reduce((acc, appointment) => {
+    acc[appointment.status] = (acc[appointment.status] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   const estatisticas = [
     {
-      title: 'Total de Leads',
-      value: totalLeads,
+      title: 'Total de Agendamentos',
+      value: totalAppointments,
       icon: Users,
       color: 'text-foreground',
       bgColor: 'bg-card'
     },
     {
-      title: 'Leads Quentes',
-      value: leadsPorTemperatura['Quente'] || 0,
-      icon: TrendingUp,
-      color: 'text-red-400',
+      title: 'Agendamentos Confirmados',
+      value: appointmentsPorStatus['confirmado'] || 0,
+      icon: CheckCircle,
+      color: 'text-green-500',
       bgColor: 'bg-card'
     },
     {
-      title: 'Leads Mornos',
-      value: leadsPorTemperatura['Morno'] || 0,
+      title: 'Agendamentos Pendentes',
+      value: appointmentsPorStatus['pendente'] || 0,
       icon: Clock,
-      color: 'text-orange-400',
+      color: 'text-yellow-500',
       bgColor: 'bg-card'
     },
     {
-      title: 'Leads Frios',
-      value: leadsPorTemperatura['Frio'] || 0,
-      icon: Target,
-      color: 'text-blue-400',
+      title: 'Agendamentos Cancelados',
+      value: appointmentsPorStatus['cancelado'] || 0,
+      icon: XCircle,
+      color: 'text-red-500',
       bgColor: 'bg-card'
     }
   ];
