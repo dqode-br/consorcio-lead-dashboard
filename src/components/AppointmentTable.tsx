@@ -137,7 +137,7 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Calendar size={14} className="text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-sm text-muted-foreground whitespace-nowrap">
                           {appointment.data_inicio ? formatDate(appointment.data_inicio) : '---'}
                         </span>
                       </div>
