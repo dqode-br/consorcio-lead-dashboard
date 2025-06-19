@@ -15,8 +15,27 @@ const Dashboard: React.FC = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Só busca quando o usuário estiver carregado e calendar_id disponível
-    if (authLoading || !user?.calendar_id) return;
+    console.log("authLoading:", authLoading, "user:", user);
+
+    if (authLoading) {
+      console.log("Ainda carregando autenticação, não faz nada.");
+      return;
+    }
+
+    if (user === null) {
+      console.log("Usuário ainda é null, só mostra loading.");
+      setLoading(true);
+      return;
+    }
+
+    if (!user.calendar_id) {
+      console.log("Usuário pronto, mas sem calendar_id. Limpando lista.");
+      setAppointments([]);
+      setLoading(false);
+      return;
+    }
+
+    console.log("Buscando agendamentos para calendar_id:", user.calendar_id);
 
     const fetchAppointments = async () => {
       setLoading(true);
@@ -40,7 +59,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchAppointments();
-  }, [user?.calendar_id, user?.is_admin, authLoading, toast]);
+  }, [user, user?.is_admin, authLoading, toast]);
 
   const handleExport = () => {
     exportToCSV(appointments);
@@ -50,7 +69,7 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  if (authLoading || loading) {
+  if (authLoading || loading || user === null) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Header onExport={handleExport} />

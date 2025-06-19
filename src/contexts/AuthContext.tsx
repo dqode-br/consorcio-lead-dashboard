@@ -31,17 +31,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const getSessionAndUser = async () => {
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      setIsLoading(true);
+      const { data: { session } } = await supabase.auth.getSession();
 
       if (session) {
-        const { data: { user: supabaseUser }, error: userError } = await supabase.auth.getUser();
-
-        if (userError) {
-          console.error("Erro ao buscar detalhes do usuário do Supabase:", userError);
-          setUser(null);
-        } else if (supabaseUser) {
-          console.log("Full user object from getUser:", supabaseUser);
+        const { data: { user: supabaseUser } } = await supabase.auth.getUser();
+        if (isMounted && supabaseUser) {
           setUser({
             id: supabaseUser.id,
             email: supabaseUser.email || '',
@@ -49,11 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             calendar_id: supabaseUser.user_metadata?.calendar_id as string || undefined,
             is_admin: supabaseUser.user_metadata?.is_admin as boolean || false,
           });
-        } else {
-          setUser(null);
         }
-      } else {
-        setUser(null);
       }
       setIsLoading(false);
     };
@@ -61,11 +55,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     getSessionAndUser();
 
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      // Quando o estado muda (ex: login/logout), getSessionAndUser será chamado novamente para sincronizar
-      // Ou, podemos otimizar e tentar usar a session.user se ela já for completa
       if (session) {
         const supabaseUser = session.user;
-        console.log("Full user object on auth state change:", supabaseUser);
         setUser({
           id: supabaseUser.id,
           email: supabaseUser.email || '',
@@ -80,6 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     return () => {
+      isMounted = false;
       authListener?.subscription?.unsubscribe();
     };
   }, []);

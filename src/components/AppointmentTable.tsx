@@ -84,48 +84,48 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
               </TableRow>
             </TableHeader>
             <TableBody>
-              {appointments.map((appointment) => (
-                <TableRow key={appointment.id} className="hover:bg-muted/50 transition-colors border-b border-border/50">
+              {appointments && appointments.length > 0 && appointments.map((appointment) => (
+                <TableRow key={appointment.id || Math.random()} className="hover:bg-muted/50 transition-colors border-b border-border/50">
                   <TableCell className="py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
                         <Mail size={16} className="text-primary" />
                       </div>
                       <div className="font-medium text-foreground">
-                        {appointment.nome}
+                        {appointment.nome || 'Sem nome'}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Phone size={14} className="text-muted-foreground" />
-                      <span className="font-mono text-sm text-foreground">{appointment.telefone}</span>
+                      <span className="font-mono text-sm text-foreground">{appointment.telefone || 'Sem telefone'}</span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="font-semibold text-primary">
-                      {appointment.valor_desejado}
+                      {appointment.valor_desejado || '---'}
                     </div>
                   </TableCell>
                   <TableCell>
-                    {getTipoBadge(appointment.tipo_de_consorcio || '')}
+                    {getTipoBadge(appointment.tipo_de_consorcio || '---')}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Calendar size={14} className="text-muted-foreground" />
                       <span className="text-sm text-muted-foreground">
-                        {formatDate(appointment.data_inicio)}
+                        {appointment.data_inicio ? formatDate(appointment.data_inicio) : '---'}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    {getTemperaturaBadge(appointment.temperatura || '')}
+                    {getTemperaturaBadge(appointment.temperatura || '---')}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 max-w-xs">
                       <MessageCircle size={14} className="text-muted-foreground flex-shrink-0" />
                       <span className="text-sm text-muted-foreground truncate">
-                        {appointment.mensagem}
+                        {appointment.mensagem || '---'}
                       </span>
                     </div>
                   </TableCell>

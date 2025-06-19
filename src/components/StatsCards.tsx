@@ -8,9 +8,12 @@ interface StatsCardsProps {
 }
 
 const StatsCards: React.FC<StatsCardsProps> = ({ appointments }) => {
-  const totalAppointments = appointments.length;
-  const appointmentsPorStatus = appointments.reduce((acc, appointment) => {
-    acc[appointment.status] = (acc[appointment.status] || 0) + 1;
+  const safeAppointments = Array.isArray(appointments) ? appointments : [];
+  console.log('StatsCards appointments:', safeAppointments);
+  const totalAppointments = safeAppointments.length;
+  const appointmentsPorTemperatura = safeAppointments.reduce((acc, appointment) => {
+    const temp = (appointment?.temperatura || '').toLowerCase();
+    acc[temp] = (acc[temp] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
@@ -23,24 +26,24 @@ const StatsCards: React.FC<StatsCardsProps> = ({ appointments }) => {
       bgColor: 'bg-card'
     },
     {
-      title: 'Agendamentos Confirmados',
-      value: appointmentsPorStatus['confirmado'] || 0,
-      icon: CheckCircle,
-      color: 'text-green-500',
+      title: 'Leads Quentes',
+      value: appointmentsPorTemperatura['quente'] || 0,
+      icon: TrendingUp,
+      color: 'text-red-500',
       bgColor: 'bg-card'
     },
     {
-      title: 'Agendamentos Pendentes',
-      value: appointmentsPorStatus['pendente'] || 0,
+      title: 'Leads Mornos',
+      value: appointmentsPorTemperatura['morno'] || 0,
       icon: Clock,
       color: 'text-yellow-500',
       bgColor: 'bg-card'
     },
     {
-      title: 'Agendamentos Cancelados',
-      value: appointmentsPorStatus['cancelado'] || 0,
+      title: 'Leads Frios',
+      value: appointmentsPorTemperatura['frio'] || 0,
       icon: XCircle,
-      color: 'text-red-500',
+      color: 'text-blue-500',
       bgColor: 'bg-card'
     }
   ];
