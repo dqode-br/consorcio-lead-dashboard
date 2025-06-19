@@ -2,6 +2,7 @@ export interface Appointment {
   id: string;
   nome: string;
   telefone: string;
+  email?: string;
   tipo_de_consorcio?: string;
   data_inicio: string;
   temperatura?: string;

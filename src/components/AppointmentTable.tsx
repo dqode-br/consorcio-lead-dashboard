@@ -76,6 +76,7 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
               <TableRow className="hover:bg-transparent border-b border-border">
                 <TableHead className="font-medium text-muted-foreground h-12">Cliente</TableHead>
                 <TableHead className="font-medium text-muted-foreground">Telefone</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Email</TableHead>
                 <TableHead className="font-medium text-muted-foreground">Valor</TableHead>
                 <TableHead className="font-medium text-muted-foreground">Tipo</TableHead>
                 <TableHead className="font-medium text-muted-foreground">Data/Hora</TableHead>
@@ -88,9 +89,7 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
                 <TableRow key={appointment.id || Math.random()} className="hover:bg-muted/50 transition-colors border-b border-border/50">
                   <TableCell className="py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <Mail size={16} className="text-primary" />
-                      </div>
+                      <Users size={16} className="text-primary" />
                       <div className="font-medium text-foreground">
                         {appointment.nome || 'Sem nome'}
                       </div>
@@ -99,7 +98,24 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Phone size={14} className="text-muted-foreground" />
-                      <span className="font-mono text-sm text-foreground">{appointment.telefone || 'Sem telefone'}</span>
+                      {appointment.telefone ? (
+                        <a
+                          href={`https://api.whatsapp.com/send/?phone=%2B${appointment.telefone.replace(/\D/g, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-mono text-sm text-foreground hover:underline"
+                        >
+                          {appointment.telefone}
+                        </a>
+                      ) : (
+                        <span className="font-mono text-sm text-foreground">Sem telefone</span>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Mail size={14} className="text-muted-foreground" />
+                      <span className="text-sm text-foreground">{appointment.email || '---'}</span>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -122,11 +138,14 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
                     {getTemperaturaBadge(appointment.temperatura || '---')}
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 max-w-xs">
-                      <MessageCircle size={14} className="text-muted-foreground flex-shrink-0" />
-                      <span className="text-sm text-muted-foreground truncate">
-                        {appointment.mensagem || '---'}
-                      </span>
+                    <div className="max-w-xs w-full">
+                      <textarea
+                        className="text-sm text-muted-foreground bg-muted/60 border border-border rounded-md resize-y w-full min-h-[40px] p-2 focus:outline-none focus:ring-2 focus:ring-primary/40 transition-colors"
+                        value={appointment.mensagem || '---'}
+                        readOnly
+                        rows={2}
+                        style={{ width: '100%' }}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>
