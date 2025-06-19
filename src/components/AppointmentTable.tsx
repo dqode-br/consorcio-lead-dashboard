@@ -55,6 +55,13 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
     });
   };
 
+  const formatValor = (valor: string | undefined) => {
+    if (!valor) return '---';
+    const num = Number(valor);
+    if (isNaN(num)) return valor;
+    return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  };
+
   return (
     <Card className="shadow-sm border border-border rounded-lg overflow-hidden">
       <CardHeader className="bg-card rounded-t-lg">
@@ -120,7 +127,7 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
                   </TableCell>
                   <TableCell>
                     <div className="font-semibold text-primary">
-                      {appointment.valor_desejado || '---'}
+                      {formatValor(appointment.valor_desejado)}
                     </div>
                   </TableCell>
                   <TableCell>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -28,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ onExport }) => {
             onClick={onExport}
             variant="outline"
             size="sm"
-            className="text-sm font-medium"
+            className="text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground"
           >
             <Download size={16} />
             Exportar CSV

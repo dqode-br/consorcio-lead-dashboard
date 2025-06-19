@@ -7,7 +7,8 @@ import { exportToCSV } from '../utils/csvExport';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
-import { Calendar, Trash } from 'lucide-react';
+import { Calendar, Trash, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const Dashboard: React.FC = () => {
   const { user, isLoading: authLoading } = useAuth();
