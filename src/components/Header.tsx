@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ onExport }) => {
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <span className="text-primary-foreground font-semibold text-sm">DC</span>
           </div>
-          <h1 className="text-lg font-semibold text-foreground">
+          <h1 className="text-lg font-semibold text-foreground hidden sm:block">
             Dashboard Consórcio
           </h1>
         </div>
@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ onExport }) => {
             className="text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground"
           >
             <Download size={16} />
-            Exportar CSV
+            <span className="hidden sm:inline">Exportar CSV</span>
           </Button>
           
           <div className="flex items-center space-x-4 pl-4 border-l border-border">
@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ onExport }) => {
               <div className="w-7 h-7 bg-secondary rounded-full flex items-center justify-center">
                 <User size={14} className="text-muted-foreground" />
               </div>
-              <span className="text-sm font-medium text-foreground">
+              <span className="hidden md:inline text-sm font-medium text-foreground">
                 {user?.name}
               </span>
             </div>
@@ -46,10 +46,10 @@ const Header: React.FC<HeaderProps> = ({ onExport }) => {
               onClick={logout}
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-primary-foreground"
             >
               <LogOut size={16} />
-              Sair
+              <span className="hidden sm:inline">Sair</span>
             </Button>
           </div>
         </div>

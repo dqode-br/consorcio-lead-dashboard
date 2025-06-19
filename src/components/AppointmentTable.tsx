@@ -70,7 +70,7 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
             <Users className="w-5 h-5 text-primary" />
             Lista de Agendamentos
           </span>
-          <Badge variant="secondary" className="text-sm">
+          <Badge className="bg-muted text-muted-foreground font-normal text-sm px-3 py-1 rounded-full whitespace-nowrap">
             {appointments.length} {appointments.length === 1 ? 'agendamento' : 'agendamentos'}
           </Badge>
         </CardTitle>
@@ -78,87 +78,83 @@ const AppointmentTable: React.FC<AppointmentTableProps> = ({ appointments }) => 
       <div className="border-b border-border"></div>
       <CardContent className="p-0">
         {appointments.length > 0 ? (
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent border-b border-border">
-                <TableHead className="font-medium text-muted-foreground h-12">Cliente</TableHead>
-                <TableHead className="font-medium text-muted-foreground">Telefone</TableHead>
-                <TableHead className="font-medium text-muted-foreground">Email</TableHead>
-                <TableHead className="font-medium text-muted-foreground">Valor</TableHead>
-                <TableHead className="font-medium text-muted-foreground">Tipo</TableHead>
-                <TableHead className="font-medium text-muted-foreground">Data/Hora</TableHead>
-                <TableHead className="font-medium text-muted-foreground">Temperatura</TableHead>
-                <TableHead className="font-medium text-muted-foreground">Notas</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {appointments && appointments.length > 0 && appointments.map((appointment) => (
-                <TableRow key={appointment.id || Math.random()} className="hover:bg-muted/50 transition-colors border-b border-border/50">
-                  <TableCell className="py-4">
-                    <div className="flex items-center gap-3">
-                      <Users size={16} className="text-primary" />
-                      <div className="font-medium text-foreground">
-                        {appointment.nome || 'Sem nome'}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Phone size={14} className="text-muted-foreground" />
-                      {appointment.telefone ? (
-                        <a
-                          href={`https://api.whatsapp.com/send/?phone=%2B${appointment.telefone.replace(/\D/g, '')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-mono text-sm text-foreground hover:underline"
-                        >
-                          {appointment.telefone}
-                        </a>
-                      ) : (
-                        <span className="font-mono text-sm text-foreground">Sem telefone</span>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Mail size={14} className="text-muted-foreground" />
-                      <span className="text-sm text-foreground">{appointment.email || '---'}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="font-semibold text-primary">
-                      {formatValor(appointment.valor_desejado)}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {getTipoBadge(appointment.tipo_de_consorcio || '---')}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Calendar size={14} className="text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">
-                        {appointment.data_inicio ? formatDate(appointment.data_inicio) : '---'}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {getTemperaturaBadge(appointment.temperatura || '---')}
-                  </TableCell>
-                  <TableCell>
-                    <div className="max-w-xs w-full">
-                      <textarea
-                        className="text-sm text-muted-foreground bg-muted/60 border border-border rounded-md resize-y w-full min-h-[40px] p-2 focus:outline-none focus:ring-2 focus:ring-primary/40 transition-colors"
-                        value={appointment.mensagem || '---'}
-                        readOnly
-                        rows={2}
-                        style={{ width: '100%' }}
-                      />
-                    </div>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table className="min-w-full">
+              <TableHeader>
+                <TableRow className="hover:bg-transparent border-b border-border">
+                  <TableHead className="font-medium text-muted-foreground h-12">Cliente</TableHead>
+                  <TableHead className="font-medium text-muted-foreground">Telefone</TableHead>
+                  <TableHead className="font-medium text-muted-foreground">Email</TableHead>
+                  <TableHead className="font-medium text-muted-foreground">Valor</TableHead>
+                  <TableHead className="font-medium text-muted-foreground">Tipo</TableHead>
+                  <TableHead className="font-medium text-muted-foreground">Data/Hora</TableHead>
+                  <TableHead className="font-medium text-muted-foreground">Temperatura</TableHead>
+                  <TableHead className="font-medium text-muted-foreground min-w-[250px]">Notas</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {appointments && appointments.length > 0 && appointments.map((appointment) => (
+                  <TableRow key={appointment.id || Math.random()} className="hover:bg-muted/50 transition-colors border-b border-border/50">
+                    <TableCell className="py-4">
+                      <div className="flex items-center gap-3">
+                        <Users size={16} className="text-primary" />
+                        <div className="font-medium text-foreground whitespace-nowrap">
+                          {appointment.nome || 'Sem nome'}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Phone size={14} className="text-muted-foreground" />
+                        {appointment.telefone ? (
+                          <a
+                            href={`https://api.whatsapp.com/send/?phone=%2B${appointment.telefone.replace(/\D/g, '')}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-mono text-sm text-foreground hover:underline"
+                          >
+                            {appointment.telefone}
+                          </a>
+                        ) : (
+                          <span className="font-mono text-sm text-foreground">Sem telefone</span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Mail size={14} className="text-muted-foreground" />
+                        <span className="text-sm text-foreground">{appointment.email || '---'}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-semibold text-primary">
+                        {formatValor(appointment.valor_desejado)}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {getTipoBadge(appointment.tipo_de_consorcio || '---')}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Calendar size={14} className="text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">
+                          {appointment.data_inicio ? formatDate(appointment.data_inicio) : '---'}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {getTemperaturaBadge(appointment.temperatura || '---')}
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-sm text-muted-foreground break-words whitespace-pre-wrap bg-muted/60 border border-border rounded-md p-2 min-h-[40px]">
+                        {appointment.mensagem || '---'}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         ) : (
           <div className="text-center py-12">
             <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center mx-auto mb-4">

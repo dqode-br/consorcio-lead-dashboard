@@ -147,69 +147,76 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-background">
       <Header onExport={handleExport} />
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="space-y-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-4">
-            <div className="mb-0 md:mb-0">
+        <div className="space-y-12">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
               <h1 className="text-3xl font-semibold text-foreground tracking-tight">Dashboard de Agendamentos</h1>
               <p className="text-base text-muted-foreground">Gerencie e acompanhe seus agendamentos de consórcio</p>
             </div>
-            {/* Filtros de data alinhados à direita */}
-            <div className="flex flex-wrap gap-2 items-end justify-end">
-              <div>
-                <label className="block text-xs mb-1 text-muted-foreground">Data inicial</label>
-                <input
-                  type="date"
-                  className="bg-card border border-border rounded px-2 py-1 text-foreground min-w-[120px] h-10 text-sm"
-                  value={startDate}
-                  onChange={e => setStartDate(e.target.value)}
-                  min="2025-01-01"
-                />
+            
+            <div className="flex flex-col md:flex-row md:items-end gap-3">
+              {/* Grupo de Datas */}
+              <div className="flex flex-1 md:flex-initial gap-3">
+                <div className="flex-1">
+                  <label className="block text-xs mb-1 text-muted-foreground">Data inicial</label>
+                  <input
+                    type="date"
+                    className="bg-card border border-border rounded px-2 py-1 text-foreground w-full h-10 text-sm"
+                    value={startDate}
+                    onChange={e => setStartDate(e.target.value)}
+                    min="2025-01-01"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-xs mb-1 text-muted-foreground">Data final</label>
+                  <input
+                    type="date"
+                    className="bg-card border border-border rounded px-2 py-1 text-foreground w-full h-10 text-sm"
+                    value={endDate}
+                    onChange={e => setEndDate(e.target.value)}
+                    min="2025-01-01"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-xs mb-1 text-muted-foreground">Data final</label>
-                <input
-                  type="date"
-                  className="bg-card border border-border rounded px-2 py-1 text-foreground min-w-[120px] h-10 text-sm"
-                  value={endDate}
-                  onChange={e => setEndDate(e.target.value)}
-                  min="2025-01-01"
-                />
-              </div>
-              <button
-                className="px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
-                onClick={handleWeekFilter}
-                type="button"
-              >
-                Semana
-              </button>
-              <button
-                className="px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
-                onClick={handleTodayFilter}
-                type="button"
-              >
-                Hoje
-              </button>
-              <button
-                className="px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
-                onClick={handleTomorrowFilter}
-                type="button"
-              >
-                Amanhã
-              </button>
-              {(startDate || endDate) && (
+
+              {/* Grupo de Botões */}
+              <div className="flex items-center gap-3">
                 <button
-                  className="px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm flex items-center justify-center"
-                  onClick={() => { setStartDate(''); setEndDate(''); }}
+                  className="flex-1 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
+                  onClick={handleWeekFilter}
                   type="button"
-                  title="Limpar filtro"
                 >
-                  <Trash size={18} />
+                  Semana
                 </button>
-              )}
+                <button
+                  className="flex-1 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
+                  onClick={handleTodayFilter}
+                  type="button"
+                >
+                  Hoje
+                </button>
+                <button
+                  className="flex-1 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
+                  onClick={handleTomorrowFilter}
+                  type="button"
+                >
+                  Amanhã
+                </button>
+                {(startDate || endDate) && (
+                  <button
+                    className="px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm flex items-center justify-center"
+                    onClick={() => { setStartDate(''); setEndDate(''); }}
+                    type="button"
+                    title="Limpar filtro"
+                  >
+                    <Trash size={18} />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
           {/* Cards de estatísticas centralizados */}
-          <div className="flex justify-center w-full mb-8">
+          <div className="flex justify-center w-full">
             <StatsCards 
               appointments={appointments}
               highlight={tempFilter} 

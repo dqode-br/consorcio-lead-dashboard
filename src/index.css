@@ -64,7 +64,7 @@
     --popover-foreground: 0 0% 100%; /* Pure White */
 
     --primary: 95 80% 65%; /* Bright green, like #B2F359 */
-    --primary-foreground: 0 0% 100%; /* Pure White */
+    --primary-foreground: 0 0% 0%; /* Pure black */
 
     --secondary: 0 0% 20%; /* A slightly lighter dark grey for secondary elements */
     --secondary-foreground: 0 0% 100%; /* Pure White */
