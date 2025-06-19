@@ -6,19 +6,25 @@ import AppointmentTable from '../components/AppointmentTable';
 import { exportToCSV } from '../utils/csvExport';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '../lib/supabaseClient';
+import { useAuth } from '../contexts/AuthContext';
 
 const Dashboard: React.FC = () => {
+  const { user, isLoading: authLoading } = useAuth();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
+    // Só busca quando o usuário estiver carregado e calendar_id disponível
+    if (authLoading || !user?.calendar_id) return;
+
     const fetchAppointments = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('agendamentos')
-        .select('*');
-
+      let query = supabase.from('agendamentos').select('*');
+      if (!user.is_admin) {
+        query = query.eq('calendar_id', user.calendar_id);
+      }
+      const { data, error } = await query;
       if (error) {
         console.error('Erro ao buscar agendamentos do Supabase:', error);
         toast({
@@ -34,7 +40,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchAppointments();
-  }, [toast]);
+  }, [user?.calendar_id, user?.is_admin, authLoading, toast]);
 
   const handleExport = () => {
     exportToCSV(appointments);
@@ -44,9 +50,9 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-white flex flex-col">
+      <div className="min-h-screen bg-background flex flex-col">
         <Header onExport={handleExport} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">

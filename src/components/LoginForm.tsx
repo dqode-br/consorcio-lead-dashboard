@@ -74,11 +74,6 @@ const LoginForm: React.FC = () => {
               {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
-          <div className="mt-4 text-sm text-muted-foreground text-center">
-            <p>Credenciais de teste:</p>
-            <p>Email: admin@consorcio.com</p>
-            <p>Senha: admin123</p>
-          </div>
         </CardContent>
       </Card>
     </div>
