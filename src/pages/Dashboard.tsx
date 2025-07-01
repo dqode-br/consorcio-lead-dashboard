@@ -18,6 +18,7 @@ const Dashboard: React.FC = () => {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [tempFilter, setTempFilter] = useState<string>('');
+  const [showFinalizados, setShowFinalizados] = useState<boolean>(false);
 
   useEffect(() => {
     console.log("authLoading:", authLoading, "user:", user);
@@ -83,8 +84,17 @@ const Dashboard: React.FC = () => {
   const filteredAppointments = appointments.filter((a) => {
     if (!a.data_inicio) return false;
     const data = new Date(a.data_inicio);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
+    if (showFinalizados) {
+      // Mostrar apenas eventos que já passaram
+      if (data >= today) return false;
+    } else {
+      // Mostrar apenas eventos de hoje em diante
+      if (data < today) return false;
+    }
     if (start && data < start) return false;
     if (end && data > end) return false;
     if (tempFilter && (a.temperatura || '').toLowerCase() !== tempFilter) return false;
@@ -110,15 +120,6 @@ const Dashboard: React.FC = () => {
     const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     setStartDate(firstDay.toISOString().slice(0, 10));
     setEndDate(lastDay.toISOString().slice(0, 10));
-  };
-
-  // Função para filtrar amanhã
-  const handleTomorrowFilter = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const iso = tomorrow.toISOString().slice(0, 10);
-    setStartDate(iso);
-    setEndDate(iso);
   };
 
   // Função para filtrar hoje
@@ -180,31 +181,32 @@ const Dashboard: React.FC = () => {
               </div>
 
               {/* Grupo de Botões */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 md:gap-3 overflow-x-auto md:overflow-visible w-full md:w-auto py-1 scrollbar-thin scrollbar-thumb-muted/40 scrollbar-track-transparent">
                 <button
-                  className="flex-1 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
-                  onClick={handleWeekFilter}
-                  type="button"
-                >
-                  Semana
-                </button>
-                <button
-                  className="flex-1 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
+                  className="min-w-[90px] md:min-w-0 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm whitespace-nowrap"
                   onClick={handleTodayFilter}
                   type="button"
                 >
                   Hoje
                 </button>
                 <button
-                  className="flex-1 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm"
-                  onClick={handleTomorrowFilter}
+                  className="min-w-[110px] md:min-w-0 md:flex-initial px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm whitespace-nowrap"
+                  onClick={handleWeekFilter}
                   type="button"
                 >
-                  Amanhã
+                  Semana
+                </button>
+                <button
+                  className={`min-w-[120px] md:min-w-0 md:flex-initial px-3 rounded border transition h-10 text-sm whitespace-nowrap ${showFinalizados ? 'bg-primary text-white border-primary' : 'bg-muted text-foreground border-border hover:bg-muted/80'}`}
+                  onClick={() => setShowFinalizados((prev) => !prev)}
+                  type="button"
+                  title="Ver eventos finalizados"
+                >
+                  Finalizados
                 </button>
                 {(startDate || endDate) && (
                   <button
-                    className="px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm flex items-center justify-center"
+                    className="min-w-[50px] md:min-w-0 px-3 rounded bg-muted text-foreground border border-border hover:bg-muted/80 transition h-10 text-sm flex items-center justify-center"
                     onClick={() => { setStartDate(''); setEndDate(''); }}
                     type="button"
                     title="Limpar filtro"
